@@ -1,8 +1,5 @@
 ﻿using ConcertTicketSystem.Models;
 using ConcertTicketSystem.Repositories.VenueRepo;
-using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace ConcertTicketSystem.Services.VenueServices
 {

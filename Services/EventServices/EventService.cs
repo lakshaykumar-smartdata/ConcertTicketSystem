@@ -1,10 +1,6 @@
 ﻿using ConcertTicketSystem.Dto.ResponseDto;
 using ConcertTicketSystem.Models;
 using ConcertTicketSystem.Repositories.EventRepo;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace ConcertTicketSystem.Services.EventServices
 {

@@ -1,5 +1,4 @@
 using ConcertTicketSystem.DependencyInjection;
-using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
