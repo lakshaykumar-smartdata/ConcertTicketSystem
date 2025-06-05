@@ -29,5 +29,14 @@ namespace ConcertTicketSystem.Repositories.EventRepo
         {
             return await _context.Events.FindAsync(id);
         }
+        public async Task<IEnumerable<Event>> GetUpcomingEventsWithTicketsAsync()
+        {
+            return await _context.Events
+                .Include(e => e.Venue)
+                .Include(e => e.TicketTypes)
+                    .ThenInclude(tt => tt.Tickets)
+                .Where(e => e.StartTime >= DateTime.UtcNow)
+                .ToListAsync();
+        }
     }
 }

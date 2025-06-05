@@ -7,5 +7,6 @@ namespace ConcertTicketSystem.Repositories.EventRepo
         Task<Guid> AddAsync(Event venue);
         Task<IEnumerable<Event>> GetAllAsync();
         Task<Event> GetByIdAsync(Guid id);
+        Task<IEnumerable<Event>> GetUpcomingEventsWithTicketsAsync();
     }
 }

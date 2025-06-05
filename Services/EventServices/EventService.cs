@@ -1,4 +1,5 @@
-﻿using ConcertTicketSystem.Models;
+﻿using ConcertTicketSystem.Dto.ResponseDto;
+using ConcertTicketSystem.Models;
 using ConcertTicketSystem.Repositories.EventRepo;
 using Microsoft.EntityFrameworkCore;
 using System.Net.Sockets;
@@ -26,6 +27,28 @@ namespace ConcertTicketSystem.Services.EventServices
         public async Task<Event> GetByIdAsync(Guid id)
         {
             return await _repository.GetByIdAsync(id);
+        }
+        public async Task<IEnumerable<EventViewModel>> GetAllEventsWithAvailabilityAsync()
+        {
+            var events = await _repository.GetUpcomingEventsWithTicketsAsync();
+
+            return events.Select(e => new EventViewModel
+            {
+                Id = e.Id,
+                Title = e.Name,
+                EventDate = e.Date,
+                VenueName = e.Venue.Name,
+                TicketTypes = e.TicketTypes.Select(tt => new TicketTypeViewModel
+                {
+                    TicketTypeId = tt.Id,
+                    Name = tt.Name,
+                    Price = tt.Price,
+                    TotalQuantity = tt.QuantityAvailable,
+                    AvailableCount = tt.Tickets.Count(t =>
+                        !t.IsPurchased &&
+                        (!t.ReservationExpiresAt.HasValue || t.ReservationExpiresAt < DateTime.UtcNow))
+                }).ToList()
+            });
         }
     }
 }
