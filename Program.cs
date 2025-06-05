@@ -1,4 +1,5 @@
 using ConcertTicketSystem.Data;
+using ConcertTicketSystem.DependencyInjection;
 using ConcertTicketSystem.Services.TicketServices;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -8,13 +9,10 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 
 builder.Services.AddControllers();
-builder.Services.AddScoped<ITicketService, TicketService>();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-// Configure Database Connection
-builder.Services.AddDbContext<ConcertTicketSystemDbContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+builder.Services.AddConcertTicketSystemServices(builder.Configuration);
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
