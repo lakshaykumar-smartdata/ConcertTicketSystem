@@ -27,25 +27,5 @@ namespace ConcertTicketSystem.Services.EventServices
         {
             return await _repository.GetByIdAsync(id);
         }
-        public async Task<Guid> AddTicketTypeAsync(TicketType request)
-        {
-            // Step 1: Save the ticket type
-            var ticketTypeId = await _repository.AddTicketTypeAsync(request);
-            // Step 2: Generate physical tickets based on quantity
-            var tickets = new List<Ticket>();
-            for (int i = 0; i < request.QuantityAvailable; i++)
-            {
-                tickets.Add(new Ticket
-                {
-                    Id = Guid.NewGuid(),
-                    TicketTypeId = ticketTypeId,
-                    IsPurchased = false,
-                    ReservationCode = null,
-                    ReservationExpiresAt = null
-                });
-            }
-            await _repository.AddTicketAsync(tickets);
-            return ticketTypeId;
-        }
     }
 }

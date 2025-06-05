@@ -14,5 +14,16 @@ namespace ConcertTicketSystem.Repositories.TicketRepo
         {
             _context = context;
         }
+        public async Task<Guid> AddTicketTypeAsync(TicketType request)
+        {
+            await _context.TicketTypes.AddAsync(request);
+            await _context.SaveChangesAsync();
+            return request.Id;
+        }
+        public async Task AddTicketAsync(List<Ticket> tickets)
+        {
+            await _context.Tickets.AddRangeAsync(tickets);
+            await _context.SaveChangesAsync();
+        }
     }
 }

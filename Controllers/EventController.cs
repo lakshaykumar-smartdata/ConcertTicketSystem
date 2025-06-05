@@ -1,6 +1,7 @@
 ﻿using ConcertTicketSystem.Dto.RequestDto;
 using ConcertTicketSystem.Models;
 using ConcertTicketSystem.Services.EventServices;
+using ConcertTicketSystem.Services.TicketServices;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ConcertTicketSystem.Controllers
@@ -8,9 +9,11 @@ namespace ConcertTicketSystem.Controllers
     public class EventController : Controller
     {
         private readonly IEventService _eventService;
-        public EventController(IEventService eventService)
+        private readonly ITicketService _ticketService;
+        public EventController(IEventService eventService, ITicketService ticketService)
         {
             _eventService = eventService;
+            _ticketService = ticketService;
         }
         [HttpPost("Create-Event")]
         public async Task<IActionResult> CreateEvent([FromBody] AddEventDto request)
@@ -53,7 +56,7 @@ namespace ConcertTicketSystem.Controllers
                 QuantityAvailable = request.QuantityAvailable,
                 Price = request.Price,
             };
-            var ticketTypeId = await _eventService.AddTicketTypeAsync(ticketType);
+            var ticketTypeId = await _ticketService.AddTicketTypeAsync(ticketType);
 
             // Return venueId
             return Ok(new { success = true, message = "ticket Type created successfully.", ticketTypeId = ticketTypeId });

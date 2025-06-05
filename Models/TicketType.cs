@@ -6,7 +6,7 @@ namespace ConcertTicketSystem.Models
     {
         [Key]
         public Guid Id { get; set; }
-        public string Name { get; set; } // e.g., Regular, VIP
+        public string Name { get; set; } = string.Empty; // e.g., Regular, VIP
         public decimal Price { get; set; }
         public int QuantityAvailable { get; set; }  // Tickets available for this type
 
