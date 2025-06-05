@@ -36,5 +36,10 @@ namespace ConcertTicketSystem.Repositories.EventRepo
             await _context.SaveChangesAsync();
             return request.Id;
         }
+        public async Task AddTicketAsync(List<Ticket> tickets)
+        {
+            await _context.Tickets.AddRangeAsync(tickets);
+            await _context.SaveChangesAsync();
+        }
     }
 }
