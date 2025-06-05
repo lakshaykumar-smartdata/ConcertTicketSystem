@@ -1,27 +1,31 @@
-using ConcertTicketSystem.Data;
 using ConcertTicketSystem.DependencyInjection;
-using ConcertTicketSystem.Services.TicketServices;
 using Microsoft.EntityFrameworkCore;
-using System;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-
+// Configure services
 builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+// Register application-specific services and DbContext with DI
 builder.Services.AddConcertTicketSystemServices(builder.Configuration);
+
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
+// Middleware pipeline configuration
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
+    app.UseDeveloperExceptionPage();
 }
-app.UseDeveloperExceptionPage();
+else
+{
+    app.UseExceptionHandler("/error"); // Centralized error handling endpoint for production
+    app.UseHsts();                    // Enforce HTTPS Strict Transport Security in production
+}
+
 app.UseHttpsRedirection();
 
 app.UseAuthorization();

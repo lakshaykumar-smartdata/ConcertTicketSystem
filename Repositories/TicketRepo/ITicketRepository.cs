@@ -9,5 +9,6 @@ namespace ConcertTicketSystem.Repositories.TicketRepo
         Task<Guid> AddTicketTypeAsync(TicketType request);
         Task UpdateTicketAsync(Ticket ticket);
         Task<Ticket> GetTicketByIdAsync(Guid ticketId);
+        Task<Ticket?> GetTicketByReservationCodeAsync(string reservationCode);
     }
 }
