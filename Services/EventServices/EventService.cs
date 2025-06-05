@@ -37,6 +37,8 @@ namespace ConcertTicketSystem.Services.EventServices
                 Id = e.Id,
                 Title = e.Name,
                 EventDate = e.Date,
+                EventStartTime = e.StartTime,
+                EventEndTime = e.EndTime,
                 VenueName = e.Venue.Name,
                 TicketTypes = e.TicketTypes.Select(tt => new TicketTypeViewModel
                 {
