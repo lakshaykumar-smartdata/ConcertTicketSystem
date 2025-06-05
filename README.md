@@ -29,8 +29,9 @@
 3. **Reserve Ticket**
    - Temporarily hold selected ticket(s)
    - ⚠️ Valid for a fixed time window (e.g., 10 minutes)
-
-4. **Purchase Ticket**
+4. **Cancel Reserved Ticket**
+   
+5. **Purchase Ticket**
    - Confirm and complete ticket purchase
      - Status updated to: `Purchased`
      - Remaining ticket count decreased
