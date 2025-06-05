@@ -25,5 +25,22 @@ namespace ConcertTicketSystem.Repositories.TicketRepo
             await _context.Tickets.AddRangeAsync(tickets);
             await _context.SaveChangesAsync();
         }
+        public async Task<Ticket> GetAvailableTicket(Guid ticketTypeId)
+        {
+            return await _context.Tickets
+            .Where(t => t.TicketTypeId == ticketTypeId &&
+                        !t.IsPurchased &&
+                        (t.ReservationExpiresAt == null || t.ReservationExpiresAt < DateTime.UtcNow))
+            .FirstOrDefaultAsync();
+        }
+        public async Task UpdateTicketAsync(Ticket ticket)
+        {
+            _context.Tickets.Update(ticket);
+            await _context.SaveChangesAsync();
+        }
+        public async Task<Ticket> GetTicketByIdAsync(Guid ticketId)
+        {
+            return await _context.Tickets.FindAsync(ticketId);
+        }
     }
 }

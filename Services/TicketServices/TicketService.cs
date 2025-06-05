@@ -1,5 +1,6 @@
 ﻿using ConcertTicketSystem.Models;
 using ConcertTicketSystem.Repositories.TicketRepo;
+using Microsoft.EntityFrameworkCore;
 
 namespace ConcertTicketSystem.Services.TicketServices
 {
@@ -31,5 +32,36 @@ namespace ConcertTicketSystem.Services.TicketServices
             await _ticketRepository.AddTicketAsync(tickets);
             return ticketTypeId;
         }
+        public async Task<Ticket?> ReserveTicketAsync(Guid ticketTypeId, TimeSpan holdDuration)
+        {
+            var ticket = await _ticketRepository.GetAvailableTicket(ticketTypeId);
+
+            if (ticket == null) return null;
+
+            ticket.ReservationCode = Guid.NewGuid().ToString();
+            ticket.ReservationExpiresAt = DateTime.UtcNow.Add(holdDuration);
+
+            await _ticketRepository.UpdateTicketAsync(ticket);
+            return ticket;
+        }
+        public async Task<bool> PurchaseAsync(Guid ticketId, string reservationCode)
+        {
+            var ticket = await _ticketRepository.GetTicketByIdAsync(ticketId);
+
+            if (ticket == null ||
+                ticket.IsPurchased ||
+                ticket.ReservationCode != reservationCode ||
+                ticket.ReservationExpiresAt < DateTime.UtcNow)
+                return false;
+
+            ticket.IsPurchased = true;
+            ticket.ReservationCode = null;
+            ticket.ReservationExpiresAt = null;
+
+            await _ticketRepository.UpdateTicketAsync(ticket);
+            return true;
+        }
+
+
     }
 }

@@ -9,11 +9,9 @@ namespace ConcertTicketSystem.Controllers
     public class EventController : Controller
     {
         private readonly IEventService _eventService;
-        private readonly ITicketService _ticketService;
-        public EventController(IEventService eventService, ITicketService ticketService)
+        public EventController(IEventService eventService)
         {
             _eventService = eventService;
-            _ticketService = ticketService;
         }
         [HttpPost("Create-Event")]
         public async Task<IActionResult> CreateEvent([FromBody] AddEventDto request)
@@ -42,24 +40,6 @@ namespace ConcertTicketSystem.Controllers
             if (!success.Any()) return NotFound("Events not found.");
 
             return Ok(success);
-        }
-        [HttpPost("Create-Ticket-Type")]
-        public async Task<IActionResult> CreateTicketType([FromBody] AddTicketTypeDto request)
-        {
-            if (request == null)
-                return BadRequest(new { success = false, message = "Invalid request data." });
-            TicketType ticketType = new()
-            {
-                Id = request.Id,
-                Name = request.Name,
-                EventId = request.EventId,
-                QuantityAvailable = request.QuantityAvailable,
-                Price = request.Price,
-            };
-            var ticketTypeId = await _ticketService.AddTicketTypeAsync(ticketType);
-
-            // Return venueId
-            return Ok(new { success = true, message = "ticket Type created successfully.", ticketTypeId = ticketTypeId });
         }
     }
 }
