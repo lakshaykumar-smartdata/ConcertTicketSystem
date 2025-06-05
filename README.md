@@ -36,6 +36,12 @@
      - Status updated to: `Purchased`
      - Remaining ticket count decreased
 
+## System Flow Diagram
+![Concert Ticket Management System Flow Diagram](./Diagram/Concert_Ticket_Management_System.png)
+
+
+*(Concert Ticket Management System System Workflow.)*
+
 ---
 
 ## ⏱️ Reservation Logic
