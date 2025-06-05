@@ -6,8 +6,8 @@ namespace ConcertTicketSystem.Dto.RequestDto
     {
         /// <summary>
         /// Reservation code associated with the ticket.
-        /// Used for verifying the reservation before purchase.
-        /// Required for authorization of the purchase operation.
+        /// Used for verifying the reservation before cancel.
+        /// Required for authorization of the cancel operation.
         /// </summary>
         [Required]
         [MaxLength(150)]
