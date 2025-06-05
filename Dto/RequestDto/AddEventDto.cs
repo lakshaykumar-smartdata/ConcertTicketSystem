@@ -1,11 +1,9 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using System.Net.Sockets;
 
-namespace ConcertTicketSystem.Models
+namespace ConcertTicketSystem.Dto.RequestDto
 {
-    public class Event
+    public class AddEventDto
     {
-        [Key]
         public Guid Id { get; set; }
         public string Name { get; set; }
         public DateTime Date { get; set; }
@@ -14,8 +12,5 @@ namespace ConcertTicketSystem.Models
         public string Description { get; set; }
         [Required]
         public Guid VenueId { get; set; }
-        public Venue Venue { get; set; }
-
-        public ICollection<TicketType> TicketTypes { get; set; }
     }
 }

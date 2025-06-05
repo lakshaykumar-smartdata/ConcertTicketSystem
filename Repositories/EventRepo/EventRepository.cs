@@ -13,41 +13,28 @@ namespace ConcertTicketSystem.Repositories.EventRepo
         {
             _context = context;
         }
-
-        public async Task<List<Event>> GetAllAsync()
+        public async Task<Guid> AddAsync(Event request)
         {
-            return await _context.Events
-                                 .Include(e => e.Tickets)
-                                 .ToListAsync();
-        }
-
-        public async Task<Event?> GetByIdAsync(int id)
-        {
-            return await _context.Events
-                                 .Include(e => e.Tickets)
-                                 .FirstOrDefaultAsync(e => e.Id == id);
-        }
-
-        public async Task AddAsync(Event evnt)
-        {
-            await _context.Events.AddAsync(evnt);
+            await _context.Events.AddAsync(request);
             await _context.SaveChangesAsync();
+            return request.Id;
         }
 
-        public async Task UpdateAsync(Event evnt)
+        public async Task<IEnumerable<Event>> GetAllAsync()
         {
-            _context.Events.Update(evnt);
+            return await _context.Events.ToListAsync();
+        }
+
+        public async Task<Event> GetByIdAsync(Guid id)
+        {
+            return await _context.Events.FindAsync(id);
+        }
+
+        public async Task<Guid> AddTicketTypeAsync(TicketType request)
+        {
+            await _context.TicketTypes.AddAsync(request);
             await _context.SaveChangesAsync();
-        }
-
-        public async Task DeleteAsync(int id)
-        {
-            var evnt = await _context.Events.FindAsync(id);
-            if (evnt != null)
-            {
-                _context.Events.Remove(evnt);
-                await _context.SaveChangesAsync();
-            }
+            return request.Id;
         }
     }
 }
